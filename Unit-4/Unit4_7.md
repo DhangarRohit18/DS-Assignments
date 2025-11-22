@@ -13,15 +13,15 @@ Write a program to illustrate operations on a BST holding numeric keys. The menu
 ## Pseudo Code
 
 ### Node Structure
-
+```
 Structure TreeNode:
     data: integer
     left: pointer to TreeNode
     right: pointer to TreeNode
-
+```
 
 ### Insert Node
-
+```
 Algorithm Insert(root, value):
     If root is NULL:
         Create new node with value
@@ -31,10 +31,10 @@ Algorithm Insert(root, value):
     Else If value > root.data:
         root.right = Insert(root.right, value)
     Return root
-
+```
 
 ### Delete Node
-
+```
 Algorithm Delete(root, value):
     If root is NULL:
         Return root
@@ -55,10 +55,10 @@ Algorithm Delete(root, value):
         root.data = temp.data
         root.right = Delete(root.right, temp.data)
     Return root
-
+```
 
 ### Find Node
-
+```
 Algorithm Find(root, value):
     If root is NULL OR root.data equals value:
         Return root
@@ -66,17 +66,17 @@ Algorithm Find(root, value):
         Return Find(root.left, value)
     Else:
         Return Find(root.right, value)
-
+```
 
 ### Show Tree (Inorder Traversal)
-
+```
 Algorithm Show(root):
     If root is not NULL:
         Show(root.left)
         Print root.data
         Show(root.right)
 
-
+```
 ## Code Implementation
 
 ```cpp
@@ -405,4 +405,5 @@ The find operation efficiently searches the tree by:
 4. Returning node if target == current
 
 This implementation provides a solid foundation for understanding BST operations and their applications in computer science.
+
 
