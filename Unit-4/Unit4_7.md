@@ -201,9 +201,9 @@ int main() {
     }
     return 0;
 }
-
+```
 ## Output
-'''
+```
 1. Insert
 2. Delete
 3. Find
@@ -263,10 +263,10 @@ Inorder traversal: 50 70
 5. Exit
 Enter choice: 5
 Exiting...
-'''
+```
 
 ## Dry Run
-
+```
 For creating a sample BST with values [50, 30, 70, 20, 40, 60, 80]:
 
 1. **Insert 50**:
@@ -347,9 +347,9 @@ Final BST structure:
     - Delete 40 from right subtree
     - Result: 40 becomes new node at position of 30
 - Final Tree: 50 (left: 40 (left: 20, right: NULL), right: 70 (left: 60, right: 80))
-
+```
 ## Conclusion
-
+```
 The implementation demonstrates a comprehensive Binary Search Tree with all required operations and additional features. Key features include:
 
 1. **Complete BST Operations**: Insert, Delete, Find, and Show as required
@@ -405,5 +405,4 @@ The find operation efficiently searches the tree by:
 4. Returning node if target == current
 
 This implementation provides a solid foundation for understanding BST operations and their applications in computer science.
-
-
+```
