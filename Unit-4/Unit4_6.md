@@ -81,7 +81,8 @@ void printTreeStructure_rrd(struct StudentNode_rrd* root_rrd);
 void freeTree_rrd(struct StudentNode_rrd* root_rrd);
 struct StudentNode_rrd* createSampleStudents_rrd();
 void displayMenu_rrd();
-struct StudentNode_rrd* createStudentNode_rrd(char name_rrd[], int marks_rrd) {
+struct StudentNode_rrd* createStudentNode_rrd(char name_rrd[], int marks_rrd)
+{
     struct StudentNode_rrd* newNode_rrd = (struct StudentNode_rrd*)malloc(sizeof(struct StudentNode_rrd));
     strcpy(newNode_rrd->name_rrd, name_rrd);
     newNode_rrd->marks_rrd = marks_rrd;
@@ -91,105 +92,109 @@ struct StudentNode_rrd* createStudentNode_rrd(char name_rrd[], int marks_rrd) {
     return newNode_rrd;
 }
 
-struct StudentNode_rrd* insertStudent_rrd(struct StudentNode_rrd* root_rrd, char name_rrd[], int marks_rrd) {
-    if (root_rrd == NULL)
+struct StudentNode_rrd* insertStudent_rrd(struct StudentNode_rrd* root_rrd, char name_rrd[], int marks_rrd)
 {
+    if (root_rrd == NULL)
+    {
         cout << "Added student %s with marks " << name_rrd, marks_rrd << "" << endl;
         return createStudentNode_rrd(name_rrd, marks_rrd);
     }
 
     if (marks_rrd > root_rrd->marks_rrd)
-{
+    {
         root_rrd->left_rrd = insertStudent_rrd(root_rrd->left_rrd, name_rrd, marks_rrd);
-    } else if (marks_rrd < root_rrd->marks_rrd)
-
-{
+    }
+    else if (marks_rrd < root_rrd->marks_rrd)
+    {
         root_rrd->right_rrd = insertStudent_rrd(root_rrd->right_rrd, name_rrd, marks_rrd);
-    } else
-{
-
+    }
+    else
+    {
         cout << "Student %s has same marks as another student (" << name_rrd, marks_rrd << ")" << endl;
         root_rrd->left_rrd = insertStudent_rrd(root_rrd->left_rrd, name_rrd, marks_rrd);
     }
     return root_rrd;
 }
-
-void assignRollNumbers_rrd(struct StudentNode_rrd* root_rrd, int* rollCounter_rrd) {
-    if (root_rrd != NULL)
+void assignRollNumbers_rrd(struct StudentNode_rrd* root_rrd, int* rollCounter_rrd)
 {
+    if (root_rrd != NULL)
+    {
         assignRollNumbers_rrd(root_rrd->left_rrd, rollCounter_rrd);
         root_rrd->rollNo_rrd = (*rollCounter_rrd)++;
         assignRollNumbers_rrd(root_rrd->right_rrd, rollCounter_rrd);
     }
-}
-
-void displayByRollNumber_rrd(struct StudentNode_rrd* root_rrd) {
-    if (root_rrd != NULL)
+}    
+void displayByRollNumber_rrd(struct StudentNode_rrd* root_rrd)
 {
+    if (root_rrd != NULL)
+    {
         displayByRollNumber_rrd(root_rrd->left_rrd);
         cout << "Roll No: " << root_rrd->rollNo_rrd, root_rrd->name_rrd, root_rrd->marks_rrd << "\tName: %s\t\tMarks: %d" << endl;
         displayByRollNumber_rrd(root_rrd->right_rrd);
     }
 }
 
-void displayByMarks_rrd(struct StudentNode_rrd* root_rrd) {
-    if (root_rrd != NULL)
+void displayByMarks_rrd(struct StudentNode_rrd* root_rrd)
 {
+    if (root_rrd != NULL)
+    {
         displayByMarks_rrd(root_rrd->left_rrd);
         cout << "Name: %s\t\tMarks: " << root_rrd->name_rrd, root_rrd->marks_rrd, root_rrd->rollNo_rrd << "\t\tRoll No: %d" << endl;
         displayByMarks_rrd(root_rrd->right_rrd);
     }
 }
 
-struct StudentNode_rrd* searchStudent_rrd(struct StudentNode_rrd* root_rrd, char name_rrd[]) {
-    if (root_rrd == NULL)
+struct StudentNode_rrd* searchStudent_rrd(struct StudentNode_rrd* root_rrd, char name_rrd[])
 {
+    if (root_rrd == NULL)
+    {
         return NULL;
     }
 
     int comparison_rrd = strcmp(name_rrd, root_rrd->name_rrd);
     if (comparison_rrd == 0)
-{
+    {
         return root_rrd;
-    } else if (comparison_rrd < 0)
-
-{
+    }
+    else if (comparison_rrd < 0)
+    {
         return searchStudent_rrd(root_rrd->left_rrd, name_rrd);
-    } else
-{
+    }
+    else
+    {
         return searchStudent_rrd(root_rrd->right_rrd, name_rrd);
     }
 }
 
-struct StudentNode_rrd* findTopper_rrd(struct StudentNode_rrd* root_rrd) {
-    if (root_rrd == NULL)
+struct StudentNode_rrd* findTopper_rrd(struct StudentNode_rrd* root_rrd)
 {
+    if (root_rrd == NULL)
+    {
         return NULL;
     }
-
     while (root_rrd->left_rrd != NULL)
-{
+    {
         root_rrd = root_rrd->left_rrd;
     }
     return root_rrd;
 }
-
-struct StudentNode_rrd* findLast_rrd(struct StudentNode_rrd* root_rrd) {
-    if (root_rrd == NULL)
+struct StudentNode_rrd* findLast_rrd(struct StudentNode_rrd* root_rrd)
 {
+    if (root_rrd == NULL)
+    {
         return NULL;
     }
-
     while (root_rrd->right_rrd != NULL)
-{
+    {
         root_rrd = root_rrd->right_rrd;
     }
     return root_rrd;
 }
 
-int countStudents_rrd(struct StudentNode_rrd* root_rrd) {
-    if (root_rrd == NULL)
+int countStudents_rrd(struct StudentNode_rrd* root_rrd)
 {
+    if (root_rrd == NULL)
+    {
         return 0;
     }
     return 1 + countStudents_rrd(root_rrd->left_rrd) + countStudents_rrd(root_rrd->right_rrd);
@@ -198,50 +203,49 @@ int countStudents_rrd(struct StudentNode_rrd* root_rrd) {
 double calculateAverage_rrd(struct StudentNode_rrd* root_rrd, int* totalCount_rrd)
 {
     if (root_rrd == NULL)
-{
+    {
         return 0.0;
     }
-
     (*totalCount_rrd)++;
-    return root_rrd->marks_rrd + calculateAverage_rrd(root_rrd->left_rrd, totalCount_rrd) + 
-           calculateAverage_rrd(root_rrd->right_rrd, totalCount_rrd);
+    return root_rrd->marks_rrd + calculateAverage_rrd(root_rrd->left_rrd, totalCount_rrd) + calculateAverage_rrd(root_rrd->right_rrd, totalCount_rrd);
 }
 
-void displayStructure_rrd(struct StudentNode_rrd* root_rrd, int space_rrd) {
+void displayStructure_rrd(struct StudentNode_rrd* root_rrd, int space_rrd)
+{
     const int COUNT_rrd = 15;
     if (root_rrd == NULL)
-{
+    {
         return;
     }
-
     space_rrd += COUNT_rrd;
     displayStructure_rrd(root_rrd->right_rrd, space_rrd);
     cout << "" << endl;
     for (int i_rrd = COUNT_rrd; i_rrd < space_rrd; i_rrd++)
-{
+    {
         cout << " ";
     }
-
     cout << "%s(" << root_rrd->name_rrd, root_rrd->marks_rrd << ")" << endl;
     displayStructure_rrd(root_rrd->left_rrd, space_rrd);
 }
-
-void printTreeStructure_rrd(struct StudentNode_rrd* root_rrd) {
+void printTreeStructure_rrd(struct StudentNode_rrd* root_rrd)
+{
     cout << "\nStudent Tree Structure (Name(Marks)):" << endl;
     displayStructure_rrd(root_rrd, 0);
     cout << "" << endl;
 }
 
-void freeTree_rrd(struct StudentNode_rrd* root_rrd) {
-    if (root_rrd != NULL)
+void freeTree_rrd(struct StudentNode_rrd* root_rrd)
 {
+    if (root_rrd != NULL)
+    {
         freeTree_rrd(root_rrd->left_rrd);
         freeTree_rrd(root_rrd->right_rrd);
         free(root_rrd);
     }
 }
 
-struct StudentNode_rrd* createSampleStudents_rrd() {
+struct StudentNode_rrd* createSampleStudents_rrd()
+{
     struct StudentNode_rrd* root_rrd = NULL;
     root_rrd = insertStudent_rrd(root_rrd, "Alice Johnson", 95);
     root_rrd = insertStudent_rrd(root_rrd, "Bob Smith", 87);
@@ -256,7 +260,8 @@ struct StudentNode_rrd* createSampleStudents_rrd() {
     return root_rrd;
 }
 
-struct StudentNode_rrd* addStudentInteractive_rrd(struct StudentNode_rrd* root_rrd) {
+struct StudentNode_rrd* addStudentInteractive_rrd(struct StudentNode_rrd* root_rrd)
+{
     char name_rrd[50];
     int marks_rrd;
     cout << "Enter student name: ";
@@ -264,7 +269,7 @@ struct StudentNode_rrd* addStudentInteractive_rrd(struct StudentNode_rrd* root_r
     cout << "Enter student marks: ";
     cin >> marks_rrd;
     if (marks_rrd < 0 || marks_rrd > 100)
-{
+    {
         cout << "Invalid marks! Marks should be between 0 and 100." << endl;
         return root_rrd;
     }
@@ -273,25 +278,26 @@ struct StudentNode_rrd* addStudentInteractive_rrd(struct StudentNode_rrd* root_r
     return root_rrd;
 }
 
-void displayMenu_rrd() {
+void displayMenu_rrd()
+{
     cout << "\n===== Student Roll Number Assignment System =====" << endl;
     cout << "1. Create Sample Student Data" << endl;
     cout << "2. Add Student" << endl;
     cout << "3. Assign Roll Numbers" << endl;
     cout << "4. Display Students by Roll Number" << endl;
     cout << "5. Display Students by Marks (Topper first)" << endl;
-    cout << "6. Display Tree Structure" << endl;
-    cout << "7. Search Student" << endl;
-    cout << "8. Show Topper" << endl;
-    cout << "9. Show Last Student" << endl;
-    cout << "10. Count Students" << endl;
-    cout << "11. Calculate Average Marks" << endl;
-    cout << "12. Exit" << endl;
+    cout << "6. Search Student" << endl;
+    cout << "7. Show Topper" << endl;
+    cout << "8. Show Last Student" << endl;
+    cout << "9. Count Students" << endl;
+    cout << "10. Calculate Average Marks" << endl;
+    cout << "11. Exit" << endl;
     cout << "===============================================" << endl;
     cout << "Enter your choice: ";
 }
 
-int main() {
+int main()
+{
     cout << "Welcome to Student Roll Number Assignment System!" << endl;
     cout << "Students will be assigned roll numbers based on their marks (higher marks = lower roll number)" << endl;
     struct StudentNode_rrd* root_rrd = NULL;
@@ -299,12 +305,13 @@ int main() {
     int rollNumbersAssigned_rrd = 0;
     int choice_rrd;
     while (1)
-{
+    {
         displayMenu_rrd();
         cin >> choice_rrd;
         switch (choice_rrd)
-{
-{
+        {
+            case 1:
+            {
                 freeTree_rrd(root_rrd);
                 root_rrd = createSampleStudents_rrd();
                 rollCounter_rrd = 1;
@@ -312,125 +319,115 @@ int main() {
                 cout << "Sample student data created successfully!" << endl;
                 break;
             }
-
-{
+            case 2:
+            {
                 root_rrd = addStudentInteractive_rrd(root_rrd);
                 rollNumbersAssigned_rrd = 0;
                 break;
             }
-
-{
+            case 3:
+            {
                 if (root_rrd == NULL)
-{
+                {    
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 rollCounter_rrd = 1;
                 assignRollNumbers_rrd(root_rrd, &rollCounter_rrd);
                 rollNumbersAssigned_rrd = 1;
                 cout << "Roll numbers assigned successfully!" << endl;
                 break;
             }
-
-{
+            case 3:
+            {
                 if (root_rrd == NULL)
-{
+                {
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 if (!rollNumbersAssigned_rrd)
-{
+                {
                     cout << "Please assign roll numbers first (Option 3)!" << endl;
                     break;
                 }
-
                 cout << "\nStudents by Roll Number:" << endl;
                 cout << "Roll No\tName\t\t\tMarks" << endl;
                 cout << "-------\t----\t\t\t-----" << endl;
                 displayByRollNumber_rrd(root_rrd);
                 break;
             }
-
-{
+            case 4:
+            {
                 if (root_rrd == NULL)
-{
+                {
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 if (!rollNumbersAssigned_rrd)
-{
+                {
                     cout << "Please assign roll numbers first (Option 3)!" << endl;
                     break;
                 }
-
                 cout << "\nStudents by Marks (Topper first):" << endl;
                 cout << "Name\t\t\tMarks\t\tRoll No" << endl;
                 cout << "----\t\t\t-----\t\t-------" << endl;
                 displayByMarks_rrd(root_rrd);
                 break;
             }
-
-{
+            case 5:
+            {
                 if (root_rrd == NULL)
-{
+                {
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 printTreeStructure_rrd(root_rrd);
                 break;
             }
-
-{
+            case 6:
+            {        
                 if (root_rrd == NULL)
-{
+                {
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 if (!rollNumbersAssigned_rrd)
-{
+                {
                     cout << "Please assign roll numbers first (Option 3)!" << endl;
                     break;
                 }
-
                 char name_rrd[50];
                 cout << "Enter student name to search: ";
                 scanf(" %[^\n]s", name_rrd);
                 struct StudentNode_rrd* student_rrd = searchStudent_rrd(root_rrd, name_rrd);
                 if (student_rrd != NULL)
-{
+                {
                     cout << "Student found:" << endl;
                     cout << "Name: " << student_rrd->name_rrd << "" << endl;
                     cout << "Marks: " << student_rrd->marks_rrd << "" << endl;
                     cout << "Roll No: " << student_rrd->rollNo_rrd << "" << endl;
-                } else
-{
-
+                }
+                else
+                {
                     cout << "Student " << name_rrd << " not found!" << endl;
                 }
                 break;
             }
-
-{
+            case 7:
+            {
                 if (root_rrd == NULL)
-{
+                {
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 if (!rollNumbersAssigned_rrd)
-{
+                {
                     cout << "Please assign roll numbers first (Option 3)!" << endl;
                     break;
                 }
-
                 struct StudentNode_rrd* topper_rrd = findTopper_rrd(root_rrd);
                 if (topper_rrd != NULL)
-{
+                {
                     cout << "Class Topper:" << endl;
                     cout << "Name: " << topper_rrd->name_rrd << "" << endl;
                     cout << "Marks: " << topper_rrd->marks_rrd << "" << endl;
@@ -438,23 +435,21 @@ int main() {
                 }
                 break;
             }
-
-{
-                if (root_rrd == NULL)
-{
+            case 8:
+            {
+                if (root_rrd == NULL)    
+                {
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 if (!rollNumbersAssigned_rrd)
-{
+                {
                     cout << "Please assign roll numbers first (Option 3)!" << endl;
                     break;
                 }
-
                 struct StudentNode_rrd* last_rrd = findLast_rrd(root_rrd);
                 if (last_rrd != NULL)
-{
+                {
                     cout << "Last Student:" << endl;
                     cout << "Name: " << last_rrd->name_rrd << "" << endl;
                     cout << "Marks: " << last_rrd->marks_rrd << "" << endl;
@@ -462,37 +457,36 @@ int main() {
                 }
                 break;
             }
-
-{
+            case 9:
+            {                
                 int count_rrd = countStudents_rrd(root_rrd);
                 cout << "Total number of students: " << count_rrd << "" << endl;
                 break;
             }
-
-{
+            case 10:
+            {
                 if (root_rrd == NULL)
-{
+                {        
                     cout << "No students in the system!" << endl;
                     break;
                 }
-
                 int totalCount_rrd = 0;
                 double totalMarks_rrd = calculateAverage_rrd(root_rrd, &totalCount_rrd);
                 if (totalCount_rrd > 0)
-{
+                {
                     double average_rrd = totalMarks_rrd / totalCount_rrd;
                     printf("Average marks of all students: %.2f\n", average_rrd);
                 }
                 break;
             }
-
-{
+            case 11:
+            {
                 cout << "Thank you for using Student Roll Number Assignment System!" << endl;
                 freeTree_rrd(root_rrd);
                 exit(0);
             }
-
-{
+            default:
+            {
                 cout << "Invalid choice! Please try again." << endl;
             }
         }
@@ -512,13 +506,12 @@ Students will be assigned roll numbers based on their marks (higher marks = lowe
 3. Assign Roll Numbers
 4. Display Students by Roll Number
 5. Display Students by Marks (Topper first)
-6. Display Tree Structure
-7. Search Student
-8. Show Topper
-9. Show Last Student
-10. Count Students
-11. Calculate Average Marks
-12. Exit
+6. Search Student
+7. Show Topper
+8. Show Last Student
+9. Count Students
+10. Calculate Average Marks
+11. Exit
 ===============================================
 Enter your choice: 1
 Added student Alice Johnson with marks 95
@@ -538,13 +531,12 @@ Sample student data created successfully!
 3. Assign Roll Numbers
 4. Display Students by Roll Number
 5. Display Students by Marks (Topper first)
-6. Display Tree Structure
-7. Search Student
-8. Show Topper
-9. Show Last Student
-10. Count Students
-11. Calculate Average Marks
-12. Exit
+6. Search Student
+7. Show Topper
+8. Show Last Student
+9. Count Students
+10. Calculate Average Marks
+11. Exit
 ===============================================
 Enter your choice: 3
 Roll numbers assigned successfully!
@@ -554,13 +546,12 @@ Roll numbers assigned successfully!
 3. Assign Roll Numbers
 4. Display Students by Roll Number
 5. Display Students by Marks (Topper first)
-6. Display Tree Structure
-7. Search Student
-8. Show Topper
-9. Show Last Student
-10. Count Students
-11. Calculate Average Marks
-12. Exit
+6. Search Student
+7. Show Topper
+8. Show Last Student
+9. Count Students
+10. Calculate Average Marks
+11. Exit
 ===============================================
 Enter your choice: 4
 Students by Roll Number:
@@ -582,15 +573,14 @@ Roll No	Name			Marks
 3. Assign Roll Numbers
 4. Display Students by Roll Number
 5. Display Students by Marks (Topper first)
-6. Display Tree Structure
-7. Search Student
-8. Show Topper
-9. Show Last Student
-10. Count Students
-11. Calculate Average Marks
-12. Exit
+6. Search Student
+7. Show Topper
+8. Show Last Student
+9. Count Students
+10. Calculate Average Marks
+11. Exit
 ===============================================
-Enter your choice: 8
+Enter your choice: 7
 Class Topper:
 Name: Fiona Miller
 Marks: 96
@@ -726,3 +716,4 @@ The system correctly assigns roll numbers based on performance:
 3. **Fair Assignment**: Objective and consistent roll number assignment
 
 This implementation provides a solid foundation for understanding how BSTs can be applied to real-world problems like student management systems, demonstrating both the data structure concepts and practical application.
+
