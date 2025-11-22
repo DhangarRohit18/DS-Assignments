@@ -308,13 +308,11 @@ For creating a sample BST with values [50, 30, 70, 20, 40, 60, 80]:
    - Final Tree: 50 (left: 30 (left: 20, right: 40), right: 70 (left: 60, right: 80))
 
 Final BST structure:
-else
         50
        /  \
       30   70
      / \   / \
     20 40 60 80
-else
 
 **Inorder Traversal (Show)**:
 - show_rrd(50):
@@ -407,3 +405,4 @@ The find operation efficiently searches the tree by:
 4. Returning node if target == current
 
 This implementation provides a solid foundation for understanding BST operations and their applications in computer science.
+
