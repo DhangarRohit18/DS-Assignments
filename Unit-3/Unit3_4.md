@@ -92,29 +92,30 @@ struct CharStack_rrd* createStack_rrd() {
     return stack_rrd;
 }
 
-int isEmpty_rrd(struct CharStack_rrd* stack_rrd) {
+int isEmpty_rrd(struct CharStack_rrd* stack_rrd)
+{
     return stack_rrd->top_rrd == -1;
 }
 
-int isFull_rrd(struct CharStack_rrd* stack_rrd) {
+int isFull_rrd(struct CharStack_rrd* stack_rrd)
+{
     return stack_rrd->top_rrd == MAX_SIZE - 1;
 }
 
-int push_rrd(struct CharStack_rrd* stack_rrd, char item_rrd) {
-    if (isFull_rrd(stack_rrd))
+int push_rrd(struct CharStack_rrd* stack_rrd, char item_rrd)
 {
+    if (isFull_rrd(stack_rrd))
+    {
         cout << "Stack Overflow!" << endl;
         return 0;
     }
-
     stack_rrd->items_rrd[++stack_rrd->top_rrd] = item_rrd;
     return 1;
 }
-
 char pop_rrd(struct CharStack_rrd* stack_rrd)
 {
     if (isEmpty_rrd(stack_rrd))
-{
+    {
         cout << "Stack Underflow!" << endl;
         return '\0';
     }
@@ -124,41 +125,46 @@ char pop_rrd(struct CharStack_rrd* stack_rrd)
 char peek_rrd(struct CharStack_rrd* stack_rrd)
 {
     if (isEmpty_rrd(stack_rrd))
-{
+    {
         return '\0';
     }
     return stack_rrd->items_rrd[stack_rrd->top_rrd];
 }
 
-int isOpeningBracket_rrd(char ch_rrd) {
+int isOpeningBracket_rrd(char ch_rrd)
+{
     return (ch_rrd == '(' || ch_rrd == '{' || ch_rrd == '[');
 }
-
-int isClosingBracket_rrd(char ch_rrd) {
+]
+int isClosingBracket_rrd(char ch_rrd)
+{
     return (ch_rrd == ')' || ch_rrd == '}' || ch_rrd == ']');
 }
 
-int isMatchingPair_rrd(char opening_rrd, char closing_rrd) {
+int isMatchingPair_rrd(char opening_rrd, char closing_rrd)
+{
     if (opening_rrd == '(' && closing_rrd == ')') return 1;
     if (opening_rrd == '{' && closing_rrd == '}') return 1;
     if (opening_rrd == '[' && closing_rrd == ']') return 1;
     return 0;
 }
 
-int isValidExpression_rrd(char expression_rrd[]) {
+int isValidExpression_rrd(char expression_rrd[])
+{
     int len_rrd = strlen(expression_rrd);
     for (int i_rrd = 0; i_rrd < len_rrd; i_rrd++)
-{
+    {
         char ch_rrd = expression_rrd[i_rrd];
         if (!isOpeningBracket_rrd(ch_rrd) && !isClosingBracket_rrd(ch_rrd))
-{
+        {
             return 0;
         }
     }
     return 1;
 }
 
-int checkBalancedParentheses_rrd(char expression_rrd[]) {
+int checkBalancedParentheses_rrd(char expression_rrd[])
+{
     struct CharStack_rrd* stack_rrd = createStack_rrd();
     int len_rrd = strlen(expression_rrd);
     cout << "\nChecking expression: " << expression_rrd << "" << endl;
@@ -166,40 +172,40 @@ int checkBalancedParentheses_rrd(char expression_rrd[]) {
     cout << "Step\tCharacter\tStack\t\tStatus" << endl;
     cout << "----\t---------\t-----\t\t------" << endl;
     for (int i_rrd = 0; i_rrd < len_rrd; i_rrd++)
-{
+    {
         char ch_rrd = expression_rrd[i_rrd];
         if (isOpeningBracket_rrd(ch_rrd))
-{
+        {
             if (!push_rrd(stack_rrd, ch_rrd))
-{
+            {
                 free(stack_rrd);
                 return 0;
             }
-        } else if (isClosingBracket_rrd(ch_rrd))
-{
+        }
+        else if (isClosingBracket_rrd(ch_rrd))
+        {
             if (isEmpty_rrd(stack_rrd))
-{
+            {
                 cout << "" << i_rrd + 1, ch_rrd << "\t%c\t\t(empty)\t\tUnbalanced - No matching opening bracket" << endl;
                 free(stack_rrd);
                 return 0;
             }
-
             char opening_rrd = pop_rrd(stack_rrd);
             if (!isMatchingPair_rrd(opening_rrd, ch_rrd))
-{
+            {
                 cout << "" << i_rrd + 1, ch_rrd << "\t%c\t\t";
                 if (isEmpty_rrd(stack_rrd))
-{
+                {    
                     cout << "(empty)\t\t";
-                } else {
+                }
+                else
+                {
                     for (int j_rrd = 0; j_rrd <= stack_rrd->top_rrd; j_rrd++)
-{
+                    {
                         printf("%c", stack_rrd->items_rrd[j_rrd]);
                     }
-
                     cout << "\t\t";
                 }
-
                 printf("Unbalanced - Mismatched brackets (%c and %c)\n", opening_rrd, ch_rrd);
                 free(stack_rrd);
                 return 0;
@@ -208,31 +214,31 @@ int checkBalancedParentheses_rrd(char expression_rrd[]) {
 
         cout << "" << i_rrd + 1, ch_rrd << "\t%c\t\t";
         if (isEmpty_rrd(stack_rrd))
-{
+        {
             cout << "(empty)\t\t";
-        } else {
+        }
+        else
+        {
             for (int j_rrd = 0; j_rrd <= stack_rrd->top_rrd; j_rrd++)
-{
+            {
                 printf("%c", stack_rrd->items_rrd[j_rrd]);
             }
-
             cout << "\t\t";
         }
-
         cout << "Processing" << endl;
     }
-
     int isBalanced_rrd = isEmpty_rrd(stack_rrd);
     if (isBalanced_rrd)
-{
+    {
         cout << "Final\t-\t\t(empty)\t\tBalanced - All brackets matched" << endl;
-    } else {
+    }
+    else
+    {
         cout << "Final\t-\t\t";
         for (int j_rrd = 0; j_rrd <= stack_rrd->top_rrd; j_rrd++)
-{
+        {
             printf("%c", stack_rrd->items_rrd[j_rrd]);
         }
-
         cout << "\t\tUnbalanced - Unclosed brackets remaining" << endl;
     }
 
@@ -240,15 +246,16 @@ int checkBalancedParentheses_rrd(char expression_rrd[]) {
     return isBalanced_rrd;
 }
 
-void countBrackets_rrd(char expression_rrd[]) {
+void countBrackets_rrd(char expression_rrd[])
+{
     int roundOpen_rrd = 0, roundClose_rrd = 0;
     int curlyOpen_rrd = 0, curlyClose_rrd = 0;
     int squareOpen_rrd = 0, squareClose_rrd = 0;
     int len_rrd = strlen(expression_rrd);
     for (int i_rrd = 0; i_rrd < len_rrd; i_rrd++)
-{
+    {
         switch (expression_rrd[i_rrd])
-{
+        {
             case '(': roundOpen_rrd++; break;
             case ')': roundClose_rrd++; break;
             case '{': curlyOpen_rrd++; break;
@@ -264,70 +271,70 @@ void countBrackets_rrd(char expression_rrd[]) {
     cout << "Square brackets: (" << squareOpen_rrd, squareClose_rrd << " opening, %d closing)" << endl;
 }
 
-void findUnmatchedBrackets_rrd(char expression_rrd[]) {
+void findUnmatchedBrackets_rrd(char expression_rrd[])
+{
     struct CharStack_rrd* stack_rrd = createStack_rrd();
     int len_rrd = strlen(expression_rrd);
     cout << "\nUnmatched Brackets Analysis:" << endl;
     for (int i_rrd = 0; i_rrd < len_rrd; i_rrd++)
-{
+    {
         char ch_rrd = expression_rrd[i_rrd];
         if (isOpeningBracket_rrd(ch_rrd))
-{
+        {
             push_rrd(stack_rrd, ch_rrd);
-        } else if (isClosingBracket_rrd(ch_rrd))
-
-{
+        }
+        else if (isClosingBracket_rrd(ch_rrd))
+        {    
             if (isEmpty_rrd(stack_rrd))
-{
+            {
                 cout << "Unmatched closing bracket '%c' at position " << ch_rrd, i_rrd + 1 << "" << endl;
-            } else {
+            }
+            else
+            {
                 char opening_rrd = pop_rrd(stack_rrd);
                 if (!isMatchingPair_rrd(opening_rrd, ch_rrd))
-{
+                {
                     cout << "Mismatched brackets: '%c' at position " << opening_rrd, i_rrd, ch_rrd, i_rrd + 1 << " and '%c' at position %d" << endl;
                 }
             }
         }
     }
-
     while (!isEmpty_rrd(stack_rrd))
-{
+    {
         char unmatched_rrd = pop_rrd(stack_rrd);
         printf("Unmatched opening bracket '%c'\n", unmatched_rrd);
     }
 
     free(stack_rrd);
 }
-
-void generateBalancedParentheses_rrd(int n_rrd) {
-    if (n_rrd <= 0)
+void generateBalancedParentheses_rrd(int n_rrd)
 {
+    if (n_rrd <= 0)
+    {
         cout << "Invalid number of pairs!" << endl;
         return;
     }
-
     cout << "\nExample of balanced parentheses with " << n_rrd << " pairs:" << endl;
     for (int i_rrd = 0; i_rrd < n_rrd; i_rrd++)
-{
+    {
         cout << "(";
     }
 
     for (int i_rrd = 0; i_rrd < n_rrd; i_rrd++)
-{
+    {
         cout << ")";
     }
 
     cout << "" << endl;
     cout << "Another example:" << endl;
     for (int i_rrd = 0; i_rrd < n_rrd; i_rrd++)
-{
+    {
         cout << "()";
     }
-
     cout << "" << endl;
 }
-
-void displayMenu_rrd() {
+void displayMenu_rrd()
+{
     cout << "\n===== Balanced Parentheses Checker =====" << endl;
     cout << "1. Check Balanced Parentheses" << endl;
     cout << "2. Count Bracket Types" << endl;
@@ -338,79 +345,75 @@ void displayMenu_rrd() {
     cout << "Enter your choice: ";
 }
 
-int main() {
+int main()
+{
     cout << "Welcome to Balanced Parentheses Checker!" << endl;
     int choice_rrd;
     while (1)
-{
+    {
         displayMenu_rrd();
         cin >> choice_rrd;
         switch (choice_rrd)
-{
-{
+        {
+            {
                 char expression_rrd[MAX_SIZE];
                 cout << "Enter parentheses expression: ";
                 cin >> expression_rrd;
                 if (!isValidExpression_rrd(expression_rrd))
-{
+                {
                     cout << "Error: Expression contains invalid characters! Only (), {}, [] are allowed." << endl;
                     break;
                 }
-
                 int isBalanced_rrd = checkBalancedParentheses_rrd(expression_rrd);
                 if (isBalanced_rrd)
-{
+                {
                     cout << "\nResult: The parentheses are BALANCED." << endl;
-                } else
-{
-
+                }
+                else
+                {
                     cout << "\nResult: The parentheses are NOT BALANCED." << endl;
                 }
                 break;
             }
 
-{
+            {
                 char expression_rrd[MAX_SIZE];
                 cout << "Enter parentheses expression: ";
                 cin >> expression_rrd;
                 if (!isValidExpression_rrd(expression_rrd))
-{
+                {
                     cout << "Error: Expression contains invalid characters! Only (), {}, [] are allowed." << endl;
                     break;
                 }
-
                 countBrackets_rrd(expression_rrd);
                 break;
             }
 
-{
+            {
                 char expression_rrd[MAX_SIZE];
                 cout << "Enter parentheses expression: ";
                 cin >> expression_rrd;
                 if (!isValidExpression_rrd(expression_rrd))
-{
+                {
                     cout << "Error: Expression contains invalid characters! Only (), {}, [] are allowed." << endl;
                     break;
                 }
-
                 findUnmatchedBrackets_rrd(expression_rrd);
                 break;
             }
-
-{
+            {
                 int n_rrd;
                 cout << "Enter number of pairs: ";
                 cin >> n_rrd;
                 generateBalancedParentheses_rrd(n_rrd);
                 break;
             }
-
-{
+            {
                 cout << "Thank you for using Balanced Parentheses Checker!" << endl;
                 exit(0);
             }
 
-{
+            {
                 cout << "Invalid choice! Please try again." << endl;
             }
         }
@@ -540,3 +543,4 @@ The balanced parentheses problem is fundamental in:
 4. **Data Validation**: Checking structured data formats
 
 This implementation provides a solid foundation for understanding how stacks can be used to solve problems involving nested structures and matching pairs, which is a common pattern in computer science and software development.
+
