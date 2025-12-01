@@ -16,7 +16,7 @@ Structure GraphNode:
     next: pointer to GraphNode
 Structure Graph:
     vertices: integer
-    adjList: array of pointers to GraphNode of size vertices
+    adjList: array of pointers to GraphNode of size vertices 
 ```
 
 ### Min Heap Structure (for optimization)
