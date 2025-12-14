@@ -9,7 +9,7 @@ WAP to simulate employee databases as a hash table. Search a particular employee
 ## Pseudo Code
 
 ### Employee Record Structure
-else
+```
 Structure Employee:
     id: integer
     name: string
@@ -17,27 +17,27 @@ Structure Employee:
     position: string
     salary: float
     joiningDate: string
-else
+```
 
 ### Hash Table Structure
-else
+```
 Structure HashTable:
     size: integer
     employees: array of Employee
     occupied: array of booleans
-else
+```
 
 ### Hash Function (Mid-Square Method)
-else
+```
 Algorithm HashMidSquare(id, tableSize):
     square = id * id
     numDigits = count digits in tableSize
     middleDigits = extract middle numDigits from square
     Return middleDigits MOD tableSize
-else
+```
 
 ### Insert Employee (Linear Probing)
-else
+```
 Algorithm InsertEmployee(hashTable, employee):
     index = HashMidSquare(employee.id, hashTable.size)
     originalIndex = index
@@ -51,10 +51,10 @@ Algorithm InsertEmployee(hashTable, employee):
             Return
     hashTable.employees[index] = employee
     hashTable.occupied[index] = true
-else
+```
 
 ### Search Employee
-else
+```
 Algorithm SearchEmployee(hashTable, id):
     index = HashMidSquare(id, hashTable.size)
     originalIndex = index
@@ -65,262 +65,243 @@ Algorithm SearchEmployee(hashTable, id):
         If index == originalIndex:
             Break
     Return NULL
-else
+```
 
 ### Display All Employees
-else
+```
 Algorithm DisplayAllEmployees(hashTable):
     For i = 0 to hashTable.size-1:
         If hashTable.occupied[i] is true:
             Print "Index", i, ":"
             Print hashTable.employees[i] details
-else
+```
 
-## C Code Implementation
+## C++ Code Implementation
 
-```c
+```cpp
 #include <iostream>
+#include <cstring>
+#include <cmath>
 using namespace std;
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#define TABLE_SIZE_RRD 100
-struct Employee_rrd {
-    int id_rrd;
-    char name_rrd[50];
-    char department_rrd[50];
-    char position_rrd[50];
-    float salary_rrd;
-    char joiningDate_rrd[15];
-else
 
-struct HashTable_rrd {
-    int size_rrd;
-    struct Employee_rrd* employees_rrd;
-    int* occupied_rrd;
-else
+#define TABLE_SIZE 100
 
-struct HashTable_rrd* createHashTable_rrd(int size_rrd);
-int countDigits_rrd(int num_rrd);
-int extractMiddleDigits_rrd(long long square_rrd, int numDigits_rrd);
-int hashMidSquare_rrd(int id_rrd, int tableSize_rrd);
-void insertEmployee_rrd(struct HashTable_rrd* hashTable_rrd, struct Employee_rrd employee_rrd);
-struct Employee_rrd* searchEmployee_rrd(struct HashTable_rrd* hashTable_rrd, int id_rrd);
-void displayEmployee_rrd(struct Employee_rrd employee_rrd);
-void displayAllEmployees_rrd(struct HashTable_rrd* hashTable_rrd);
-void deleteEmployee_rrd(struct HashTable_rrd* hashTable_rrd, int id_rrd);
-int main()
-else
-    struct HashTable_rrd* hashTable_rrd = createHashTable_rrd(TABLE_SIZE_RRD);
-    struct Employee_rrd emp1_rrd = {1234, "Rajesh Kumar", "IT", "Software Engineer", 75000.00, "2020-01-15"};
-    struct Employee_rrd emp2_rrd = {5678, "Priya Sharma", "HR", "Manager", 95000.00, "2019-03-20"};
-    struct Employee_rrd emp3_rrd = {9012, "Amit Patel", "Finance", "Analyst", 65000.00, "2021-06-10"};
-    struct Employee_rrd emp4_rrd = {3456, "Sneha Gupta", "IT", "Team Lead", 85000.00, "2018-11-05"};
-    struct Employee_rrd emp5_rrd = {7890, "Vikram Singh", "Marketing", "Executive", 55000.00, "2022-02-28"};
-    cout << "=== Inserting Employee Records ===" << endl;
-    insertEmployee_rrd(hashTable_rrd, emp1_rrd);
-    insertEmployee_rrd(hashTable_rrd, emp2_rrd);
-    insertEmployee_rrd(hashTable_rrd, emp3_rrd);
-    insertEmployee_rrd(hashTable_rrd, emp4_rrd);
-    insertEmployee_rrd(hashTable_rrd, emp5_rrd);
-    displayAllEmployees_rrd(hashTable_rrd);
-    cout << "\n\n=== Searching for Employees ===" << endl;
-    int searchId_rrd = 3456;
-    struct Employee_rrd* found_rrd = searchEmployee_rrd(hashTable_rrd, searchId_rrd);
-    if (found_rrd != NULL)
-else
-        displayEmployee_rrd(*found_rrd);
-    else
+struct Employee {
+    int id;
+    char name[50];
+    char department[50];
+    char position[50];
+    float salary;
+    char joiningDate[15];
+};
 
-    searchId_rrd = 9999;
-    searchEmployee_rrd(hashTable_rrd, searchId_rrd);
-    cout << "\n\n=== Deleting Employee ===" << endl;
-    deleteEmployee_rrd(hashTable_rrd, 5678);
-    displayAllEmployees_rrd(hashTable_rrd);
-    free(hashTable_rrd->employees_rrd);
-    free(hashTable_rrd->occupied_rrd);
-    free(hashTable_rrd);
-    return 0;
-else
+struct HashTable {
+    int size;
+    Employee* employees;
+    bool* occupied;
+};
 
-struct HashTable_rrd* createHashTable_rrd(int size_rrd)
-else
-    struct HashTable_rrd* hashTable_rrd = (struct HashTable_rrd*)malloc(sizeof(struct HashTable_rrd));
-    hashTable_rrd->size_rrd = size_rrd;
-    hashTable_rrd->employees_rrd = (struct Employee_rrd*)malloc(sizeof(struct Employee_rrd) * size_rrd);
-    hashTable_rrd->occupied_rrd = (int*)calloc(size_rrd, sizeof(int));
-    return hashTable_rrd;
-else
+HashTable* createHashTable(int size) {
+    HashTable* hashTable = new HashTable;
+    hashTable->size = size;
+    hashTable->employees = new Employee[size];
+    hashTable->occupied = new bool[size];
+    
+    for (int i = 0; i < size; i++) {
+        hashTable->occupied[i] = false;
+    }
+    
+    return hashTable;
+}
 
-int countDigits_rrd(int num_rrd)
-else
-    int count_rrd = 0;
-    while (num_rrd > 0)
-else
-        count_rrd++;
-        num_rrd /= 10;
-    else
-    return count_rrd;
-else
+int countDigits(int num) {
+    if (num == 0) return 1;
+    int count = 0;
+    while (num > 0) {
+        count++;
+        num /= 10;
+    }
+    return count;
+}
 
-int extractMiddleDigits_rrd(long long square_rrd, int numDigits_rrd)
-else
-    int totalDigits_rrd = countDigits_rrd(square_rrd);
-    int i_rrd;
-    int divisor_rrd;
-    int startPos_rrd;
-    if (totalDigits_rrd <= numDigits_rrd)
-else
-        return (int)square_rrd;
-    else
+int extractMiddleDigits(long long square, int numDigits) {
+    int totalDigits = countDigits(square);
+    
+    if (totalDigits <= numDigits) {
+        return (int)square;
+    }
+    
+    int startPos = (totalDigits - numDigits) / 2;
+    for (int i = 0; i < startPos; i++) {
+        square /= 10;
+    }
+    
+    int divisor = 1;
+    for (int i = 0; i < numDigits; i++) {
+        divisor *= 10;
+    }
+    return (int)(square % divisor);
+}
 
-    startPos_rrd = (totalDigits_rrd - numDigits_rrd) / 2;
-    for (i_rrd = 0; i_rrd < startPos_rrd; i_rrd++)
-else
-        square_rrd /= 10;
-    else
+int hashMidSquare(int id, int tableSize) {
+    long long square = (long long)id * id;
+    int numDigits = countDigits(tableSize);
+    int middleDigits = extractMiddleDigits(square, numDigits);
+    int hashValue = middleDigits % tableSize;
+    cout << "  ID: " << id << " -> Square: " << square << " -> Middle: " << middleDigits << " -> Hash: " << hashValue << endl;
+    return hashValue;
+}
 
-    divisor_rrd = 1;
-    for (i_rrd = 0; i_rrd < numDigits_rrd; i_rrd++)
-else
-        divisor_rrd *= 10;
-    else
-    return (int)(square_rrd % divisor_rrd);
-else
-
-int hashMidSquare_rrd(int id_rrd, int tableSize_rrd)
-else
-    long long square_rrd = (long long)id_rrd * id_rrd;
-    int numDigits_rrd = countDigits_rrd(tableSize_rrd);
-    int middleDigits_rrd = extractMiddleDigits_rrd(square_rrd, numDigits_rrd);
-    int hashValue_rrd = middleDigits_rrd % tableSize_rrd;
-    cout << "  ID: " << id_rrd, square_rrd, middleDigits_rrd, hashValue_rrd << " -> Square: %lld -> Middle: %d -> Hash: %d" << endl;
-    return hashValue_rrd;
-else
-
-void insertEmployee_rrd(struct HashTable_rrd* hashTable_rrd, struct Employee_rrd employee_rrd)
-else
-    cout << "\nInserting Employee ID " << employee_rrd.id_rrd, employee_rrd.name_rrd << " (%s)" << endl;
-    int index_rrd = hashMidSquare_rrd(employee_rrd.id_rrd, hashTable_rrd->size_rrd);
-    int originalIndex_rrd = index_rrd;
-    int probeCount_rrd = 0;
-    while (hashTable_rrd->occupied_rrd[index_rrd])
-else
-        if (hashTable_rrd->employees_rrd[index_rrd].id_rrd == employee_rrd.id_rrd)
-else
-            cout << "Employee with ID " << employee_rrd.id_rrd << " already exists!" << endl;
+void insertEmployee(HashTable* hashTable, Employee employee) {
+    cout << "\nInserting Employee ID " << employee.id << " (" << employee.name << ")" << endl;
+    int index = hashMidSquare(employee.id, hashTable->size);
+    int originalIndex = index;
+    int probeCount = 0;
+    
+    while (hashTable->occupied[index]) {
+        if (hashTable->employees[index].id == employee.id) {
+            cout << "Employee with ID " << employee.id << " already exists!" << endl;
             return;
-        else
-
-        probeCount_rrd++;
-        index_rrd = (index_rrd + 1) % hashTable_rrd->size_rrd;
-        if (index_rrd == originalIndex_rrd)
-else
+        }
+        
+        probeCount++;
+        index = (index + 1) % hashTable->size;
+        if (index == originalIndex) {
             cout << "Hash table is full. Cannot insert employee." << endl;
             return;
-        else
-    else
+        }
+    }
+    
+    hashTable->employees[index] = employee;
+    hashTable->occupied[index] = true;
+    
+    if (probeCount > 0) {
+        cout << "Inserted at index " << index << " after " << probeCount << " probes" << endl;
+    } else {
+        cout << "Inserted successfully at index " << index << endl;
+    }
+}
 
-    hashTable_rrd->employees_rrd[index_rrd] = employee_rrd;
-    hashTable_rrd->occupied_rrd[index_rrd] = 1;
-    if (probeCount_rrd > 0)
-else
-        cout << "Inserted at index " << index_rrd, probeCount_rrd << " after %d probes" << endl;
-    else
-
-    else
-        cout << "Inserted successfully at index " << index_rrd << "" << endl;
-    else
-else
-
-struct Employee_rrd* searchEmployee_rrd(struct HashTable_rrd* hashTable_rrd, int id_rrd)
-else
-    cout << "\nSearching for Employee ID " << id_rrd << "" << endl;
-    int index_rrd = hashMidSquare_rrd(id_rrd, hashTable_rrd->size_rrd);
-    int originalIndex_rrd = index_rrd;
-    int probeCount_rrd = 0;
-    while (hashTable_rrd->occupied_rrd[index_rrd])
-else
-        if (hashTable_rrd->employees_rrd[index_rrd].id_rrd == id_rrd)
-else
-            cout << "Employee found at index " << index_rrd, probeCount_rrd << " after %d probes" << endl;
-            return &hashTable_rrd->employees_rrd[index_rrd];
-        else
-
-        probeCount_rrd++;
-        index_rrd = (index_rrd + 1) % hashTable_rrd->size_rrd;
-        if (index_rrd == originalIndex_rrd)
-else
+Employee* searchEmployee(HashTable* hashTable, int id) {
+    cout << "\nSearching for Employee ID " << id << endl;
+    int index = hashMidSquare(id, hashTable->size);
+    int originalIndex = index;
+    int probeCount = 0;
+    
+    while (hashTable->occupied[index]) {
+        if (hashTable->employees[index].id == id) {
+            cout << "Employee found at index " << index << " after " << probeCount << " probes" << endl;
+            return &hashTable->employees[index];
+        }
+        
+        probeCount++;
+        index = (index + 1) % hashTable->size;
+        if (index == originalIndex) {
             break;
-        else
-    else
+        }
+    }
+    
+    cout << "Employee with ID " << id << " not found" << endl;
+    return nullptr;
+}
 
-    cout << "Employee with ID " << id_rrd << " not found" << endl;
-    return NULL;
-else
-
-void displayEmployee_rrd(struct Employee_rrd employee_rrd)
-else
+void displayEmployee(Employee employee) {
     cout << "\n--- Employee Details ---" << endl;
-    cout << "ID: " << employee_rrd.id_rrd << "" << endl;
-    cout << "Name: " << employee_rrd.name_rrd << "" << endl;
-    cout << "Department: " << employee_rrd.department_rrd << "" << endl;
-    cout << "Position: " << employee_rrd.position_rrd << "" << endl;
-    printf("Salary: %.2f\n", employee_rrd.salary_rrd);
-    cout << "Joining Date: " << employee_rrd.joiningDate_rrd << "" << endl;
-else
+    cout << "ID: " << employee.id << endl;
+    cout << "Name: " << employee.name << endl;
+    cout << "Department: " << employee.department << endl;
+    cout << "Position: " << employee.position << endl;
+    cout << "Salary: " << employee.salary << endl;
+    cout << "Joining Date: " << employee.joiningDate << endl;
+}
 
-void displayAllEmployees_rrd(struct HashTable_rrd* hashTable_rrd)
-else
+void displayAllEmployees(HashTable* hashTable) {
     cout << "\n=== Employee Database ===" << endl;
-    int count_rrd = 0;
-    int i_rrd;
-    for (i_rrd = 0; i_rrd < hashTable_rrd->size_rrd; i_rrd++)
-else
-        if (hashTable_rrd->occupied_rrd[i_rrd])
-else
-            cout << "\nIndex " << i_rrd << ":" << endl;
-            cout << "  ID: " << hashTable_rrd->employees_rrd[i_rrd].id_rrd,
-                   hashTable_rrd->employees_rrd[i_rrd].name_rrd,
-                   hashTable_rrd->employees_rrd[i_rrd].department_rrd,
-                   hashTable_rrd->employees_rrd[i_rrd].position_rrd,
-                   hashTable_rrd->employees_rrd[i_rrd].salary_rrd,
-                   hashTable_rrd->employees_rrd[i_rrd].joiningDate_rrd << ", Name: %s, Dept: %s, Position: %s, Salary: %.2f, Joining: %s" << endl;
-            count_rrd++;
-        else
-    else
+    int count = 0;
+    for (int i = 0; i < hashTable->size; i++) {
+        if (hashTable->occupied[i]) {
+            cout << "\nIndex " << i << ":" << endl;
+            cout << "  ID: " << hashTable->employees[i].id 
+                 << ", Name: " << hashTable->employees[i].name
+                 << ", Dept: " << hashTable->employees[i].department
+                 << ", Position: " << hashTable->employees[i].position
+                 << ", Salary: " << hashTable->employees[i].salary
+                 << ", Joining: " << hashTable->employees[i].joiningDate << endl;
+            count++;
+        }
+    }
+    
+    cout << "\nTotal Employees: " << count << endl;
+}
 
-    cout << "\nTotal Employees: " << count_rrd << "" << endl;
-else
-
-void deleteEmployee_rrd(struct HashTable_rrd* hashTable_rrd, int id_rrd)
-else
-    cout << "\nDeleting Employee ID " << id_rrd << "" << endl;
-    int index_rrd = hashMidSquare_rrd(id_rrd, hashTable_rrd->size_rrd);
-    int originalIndex_rrd = index_rrd;
-    while (hashTable_rrd->occupied_rrd[index_rrd])
-else
-        if (hashTable_rrd->employees_rrd[index_rrd].id_rrd == id_rrd)
-else
-            hashTable_rrd->occupied_rrd[index_rrd] = 0;
-            cout << "Employee deleted successfully from index " << index_rrd << "" << endl;
+void deleteEmployee(HashTable* hashTable, int id) {
+    cout << "\nDeleting Employee ID " << id << endl;
+    int index = hashMidSquare(id, hashTable->size);
+    int originalIndex = index;
+    
+    while (hashTable->occupied[index]) {
+        if (hashTable->employees[index].id == id) {
+            hashTable->occupied[index] = false;
+            cout << "Employee deleted successfully from index " << index << endl;
             return;
-        else
-
-        index_rrd = (index_rrd + 1) % hashTable_rrd->size_rrd;
-        if (index_rrd == originalIndex_rrd)
-else
+        }
+        
+        index = (index + 1) % hashTable->size;
+        if (index == originalIndex) {
             break;
-        else
-    else
+        }
+    }
+    
+    cout << "Employee with ID " << id << " not found" << endl;
+}
 
-    cout << "Employee with ID " << id_rrd << " not found" << endl;
-else
-else
+void freeHashTable(HashTable* hashTable) {
+    delete[] hashTable->employees;
+    delete[] hashTable->occupied;
+    delete hashTable;
+}
+
+int main() {
+    HashTable* hashTable = createHashTable(TABLE_SIZE);
+    
+    Employee emp1 = {1234, "Rajesh Kumar", "IT", "Software Engineer", 75000.00, "2020-01-15"};
+    Employee emp2 = {5678, "Priya Sharma", "HR", "Manager", 95000.00, "2019-03-20"};
+    Employee emp3 = {9012, "Amit Patel", "Finance", "Analyst", 65000.00, "2021-06-10"};
+    Employee emp4 = {3456, "Sneha Gupta", "IT", "Team Lead", 85000.00, "2018-11-05"};
+    Employee emp5 = {7890, "Vikram Singh", "Marketing", "Executive", 55000.00, "2022-02-28"};
+    
+    cout << "=== Inserting Employee Records ===" << endl;
+    insertEmployee(hashTable, emp1);
+    insertEmployee(hashTable, emp2);
+    insertEmployee(hashTable, emp3);
+    insertEmployee(hashTable, emp4);
+    insertEmployee(hashTable, emp5);
+    
+    displayAllEmployees(hashTable);
+    
+    cout << "\n\n=== Searching for Employees ===" << endl;
+    int searchId = 3456;
+    Employee* found = searchEmployee(hashTable, searchId);
+    if (found != nullptr) {
+        displayEmployee(*found);
+    }
+    
+    searchId = 9999;
+    searchEmployee(hashTable, searchId);
+    
+    cout << "\n\n=== Deleting Employee ===" << endl;
+    deleteEmployee(hashTable, 5678);
+    
+    displayAllEmployees(hashTable);
+    
+    freeHashTable(hashTable);
+    return 0;
+}
+```
 
 ## Sample Output
 
-else
+```
 === Inserting Employee Records ===
 Inserting Employee ID 1234 (Rajesh Kumar)
   ID: 1234 -> Square: 1522756 -> Middle: 227 -> Hash: 27
@@ -377,7 +358,7 @@ Index 39:
 Index 61:
   ID: 9012, Name: Amit Patel, Dept: Finance, Position: Analyst, Salary: 65000.00, Joining: 2021-06-10
 Total Employees: 4
-else
+```
 
 ## Dry Run
 
