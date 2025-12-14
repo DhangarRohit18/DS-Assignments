@@ -110,7 +110,7 @@ Algorithm DisplayAllStudents(hashTable):
                 current = current.next
 ```
 
-```
+
 ## C++ Code Implementation
 
 ```cpp
@@ -522,3 +522,4 @@ The student database management system using hashing provides:
 - Easy to extend with more search criteria
 - Memory efficient with dynamic allocation
 - Suitable for real-world college management systems
+
