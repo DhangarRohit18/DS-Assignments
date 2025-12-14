@@ -103,13 +103,6 @@ void addEdge_rrd(struct Graph_rrd* graph_rrd, int src_rrd, int dest_rrd, int wei
     struct GraphNode_rrd* newNode_rrd = createGraphNode_rrd(dest_rrd, weight_rrd);
     newNode_rrd->next_rrd = graph_rrd->adjList_rrd[src_rrd];
     graph_rrd->adjList_rrd[src_rrd] = newNode_rrd;
-    
-
-    /*
-    newNode_rrd = createGraphNode_rrd(src_rrd, weight_rrd);
-    newNode_rrd->next_rrd = graph_rrd->adjList_rrd[dest_rrd];
-    graph_rrd->adjList_rrd[dest_rrd] = newNode_rrd;
-    */
 }
 
 int findMinDistance_rrd(int dist_rrd[], int visited_rrd[], int vertices_rrd) {
