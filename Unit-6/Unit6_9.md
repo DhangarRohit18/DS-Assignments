@@ -9,7 +9,7 @@ WAP to simulate student databases as a hash table. A student database management
 ## Pseudo Code
 
 ### Student Record Structure
-else
+```
 Structure Student:
     rollNumber: integer
     name: string
@@ -18,10 +18,10 @@ Structure Student:
     cgpa: float
     email: string
     phone: string
-else
+```
 
 ### Hash Table Structure
-else
+```
 Structure HashNode:
     student: Student
     next: pointer to HashNode
@@ -29,16 +29,16 @@ Structure HashTable:
     size: integer
     buckets: array of pointers to HashNode of size size
     count: integer
-else
+```
 
 ### Hash Function
-else
+```
 Algorithm Hash(rollNumber, tableSize):
     Return rollNumber MOD tableSize
-else
+```
 
 ### Insert Student
-else
+```
 Algorithm InsertStudent(hashTable, student):
     index = Hash(student.rollNumber, hashTable.size)
     current = hashTable.buckets[index]
@@ -52,10 +52,10 @@ Algorithm InsertStudent(hashTable, student):
     hashTable.buckets[index] = new node
     hashTable.count++
     Return true
-else
+```
 
 ### Search Student
-else
+```
 Algorithm SearchStudent(hashTable, rollNumber):
     index = Hash(rollNumber, hashTable.size)
     current = hashTable.buckets[index]
@@ -64,10 +64,10 @@ Algorithm SearchStudent(hashTable, rollNumber):
             Return current.student
         current = current.next
     Return NULL
-else
+```
 
 ### Delete Student
-else
+```
 Algorithm DeleteStudent(hashTable, rollNumber):
     index = Hash(rollNumber, hashTable.size)
     current = hashTable.buckets[index]
@@ -84,10 +84,10 @@ Algorithm DeleteStudent(hashTable, rollNumber):
         previous = current
         current = current.next
     Return false
-else
+```
 
 ### Update Student
-else
+```
 Algorithm UpdateStudent(hashTable, rollNumber, updatedStudent):
     index = Hash(rollNumber, hashTable.size)
     current = hashTable.buckets[index]
@@ -97,10 +97,10 @@ Algorithm UpdateStudent(hashTable, rollNumber, updatedStudent):
             Return true
         current = current.next
     Return false
-else
+```
 
 ### Display All Students
-else
+```
 Algorithm DisplayAllStudents(hashTable):
     For i = 0 to hashTable.size-1:
         If hashTable.buckets[i] is not NULL:
@@ -108,364 +108,273 @@ Algorithm DisplayAllStudents(hashTable):
             While current is not NULL:
                 Print current.student details
                 current = current.next
-else
+```
 
-## C Code Implementation
+```
+## C++ Code Implementation
 
-```c
+```cpp
 #include <iostream>
+#include <cstring>
 using namespace std;
-#include <stdlib.h>
-#include <string.h>
-#define TABLE_SIZE_RRD 50
-struct Student_rrd {
-    int rollNumber_rrd;
-    char name_rrd[50];
-    char branch_rrd[30];
-    int semester_rrd;
-    float cgpa_rrd;
-    char email_rrd[50];
-    char phone_rrd[15];
-else
 
-struct HashNode_rrd {
-    struct Student_rrd student_rrd;
-    struct HashNode_rrd* next_rrd;
-else
+#define TABLE_SIZE 50
 
-struct HashTable_rrd {
-    int size_rrd;
-    struct HashNode_rrd** buckets_rrd;
-    int count_rrd;
-else
+struct Student {
+    int rollNumber;
+    char name[50];
+    char branch[30];
+    int semester;
+    float cgpa;
+    char email[50];
+    char phone[15];
+};
 
-struct HashTable_rrd* createHashTable_rrd(int size_rrd);
-int hash_rrd(int rollNumber_rrd, int tableSize_rrd);
-int insertStudent_rrd(struct HashTable_rrd* hashTable_rrd, struct Student_rrd student_rrd);
-struct Student_rrd* searchStudent_rrd(struct HashTable_rrd* hashTable_rrd, int rollNumber_rrd);
-int deleteStudent_rrd(struct HashTable_rrd* hashTable_rrd, int rollNumber_rrd);
-int updateStudent_rrd(struct HashTable_rrd* hashTable_rrd, int rollNumber_rrd, struct Student_rrd updatedStudent_rrd);
-void displayStudent_rrd(struct Student_rrd student_rrd);
-void displayAllStudents_rrd(struct HashTable_rrd* hashTable_rrd);
-void displayByBranch_rrd(struct HashTable_rrd* hashTable_rrd, char* branch_rrd);
-void displayToppers_rrd(struct HashTable_rrd* hashTable_rrd, float minCGPA_rrd);
-void freeHashTable_rrd(struct HashTable_rrd* hashTable_rrd);
-int main()
-else
-    struct HashTable_rrd* hashTable_rrd = createHashTable_rrd(TABLE_SIZE_RRD);
-    struct Student_rrd s1_rrd = {1001, "Rahul Sharma", "Computer Science", 6, 8.9, "rahul@vit.edu", "9876543210"};
-    struct Student_rrd s2_rrd = {1002, "Priya Patel", "Electronics", 4, 9.2, "priya@vit.edu", "9876543211"};
-    struct Student_rrd s3_rrd = {1003, "Amit Kumar", "Mechanical", 6, 7.8, "amit@vit.edu", "9876543212"};
-    struct Student_rrd s4_rrd = {1004, "Sneha Gupta", "Computer Science", 4, 9.5, "sneha@vit.edu", "9876543213"};
-    struct Student_rrd s5_rrd = {1005, "Vikram Singh", "Civil", 6, 8.1, "vikram@vit.edu", "9876543214"};
-    struct Student_rrd s6_rrd = {1006, "Ananya Reddy", "Computer Science", 4, 8.7, "ananya@vit.edu", "9876543215"};
-    cout << "=== Inserting Student Records ===\n" << endl;
-    insertStudent_rrd(hashTable_rrd, s1_rrd);
-    insertStudent_rrd(hashTable_rrd, s2_rrd);
-    insertStudent_rrd(hashTable_rrd, s3_rrd);
-    insertStudent_rrd(hashTable_rrd, s4_rrd);
-    insertStudent_rrd(hashTable_rrd, s5_rrd);
-    insertStudent_rrd(hashTable_rrd, s6_rrd);
-    displayAllStudents_rrd(hashTable_rrd);
-    cout << "\n\n=== Searching for Student ===" << endl;
-    int searchRoll_rrd = 1004;
-    struct Student_rrd* found_rrd = searchStudent_rrd(hashTable_rrd, searchRoll_rrd);
-    if (found_rrd != NULL)
-else
-        cout << "Student found!";
-        displayStudent_rrd(*found_rrd);
-    else
+struct HashNode {
+    Student student;
+    HashNode* next;
+};
 
-    else
-        cout << "Student with Roll Number " << searchRoll_rrd << " not found!" << endl;
-    else
+struct HashTable {
+    int size;
+    HashNode** buckets;
+    int count;
+};
 
-    cout << "\n\n=== Updating Student ===" << endl;
-    struct Student_rrd updatedS3_rrd = {1003, "Amit Kumar", "Mechanical", 7, 8.2, "amit@vit.edu", "9876543212"};
-    updateStudent_rrd(hashTable_rrd, 1003, updatedS3_rrd);
-    cout << "\n\n=== Display by Branch ===";
-    displayByBranch_rrd(hashTable_rrd, "Computer Science");
-    cout << "\n\n=== Display Toppers ===";
-    displayToppers_rrd(hashTable_rrd, 8.5);
-    cout << "\n\n=== Deleting Student ===" << endl;
-    deleteStudent_rrd(hashTable_rrd, 1002);
-    displayAllStudents_rrd(hashTable_rrd);
-    freeHashTable_rrd(hashTable_rrd);
-    return 0;
-else
+HashTable* createHashTable(int size) {
+    HashTable* hashTable = new HashTable;
+    hashTable->size = size;
+    hashTable->count = 0;
+    hashTable->buckets = new HashNode*[size];
+    
+    for (int i = 0; i < size; i++) {
+        hashTable->buckets[i] = nullptr;
+    }
+    
+    return hashTable;
+}
 
-struct HashTable_rrd* createHashTable_rrd(int size_rrd)
-else
-    struct HashTable_rrd* hashTable_rrd = (struct HashTable_rrd*)malloc(sizeof(struct HashTable_rrd));
-    int i_rrd;
-    hashTable_rrd->size_rrd = size_rrd;
-    hashTable_rrd->count_rrd = 0;
-    hashTable_rrd->buckets_rrd = (struct HashNode_rrd**)malloc(sizeof(struct HashNode_rrd*) * size_rrd);
-    for (i_rrd = 0; i_rrd < size_rrd; i_rrd++)
-else
-        hashTable_rrd->buckets_rrd[i_rrd] = NULL;
-    else
-    return hashTable_rrd;
-else
+int hashFunction(int rollNumber, int tableSize) {
+    return rollNumber % tableSize;
+}
 
-int hash_rrd(int rollNumber_rrd, int tableSize_rrd)
-else
-    return rollNumber_rrd % tableSize_rrd;
-else
+bool insertStudent(HashTable* hashTable, Student student) {
+    int index = hashFunction(student.rollNumber, hashTable->size);
+    HashNode* current = hashTable->buckets[index];
+    
+    while (current != nullptr) {
+        if (current->student.rollNumber == student.rollNumber) {
+            cout << "Error: Student with Roll Number " << student.rollNumber << " already exists!" << endl;
+            return false;
+        }
+        current = current->next;
+    }
+    
+    HashNode* newNode = new HashNode;
+    newNode->student = student;
+    newNode->next = hashTable->buckets[index];
+    hashTable->buckets[index] = newNode;
+    hashTable->count++;
+    
+    cout << "Student " << student.name << " (Roll No: " << student.rollNumber << ") inserted successfully at index " << index << endl;
+    return true;
+}
 
-int insertStudent_rrd(struct HashTable_rrd* hashTable_rrd, struct Student_rrd student_rrd)
-else
-    int index_rrd = hash_rrd(student_rrd.rollNumber_rrd, hashTable_rrd->size_rrd);
-    struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[index_rrd];
-    struct HashNode_rrd* newNode_rrd;
-    while (current_rrd != NULL)
-else
-        if (current_rrd->student_rrd.rollNumber_rrd == student_rrd.rollNumber_rrd)
-else
-            cout << "Error: Student with Roll Number " << student_rrd.rollNumber_rrd << " already exists!" << endl;
-            return 0;
-        else
+Student* searchStudent(HashTable* hashTable, int rollNumber) {
+    int index = hashFunction(rollNumber, hashTable->size);
+    HashNode* current = hashTable->buckets[index];
+    
+    while (current != nullptr) {
+        if (current->student.rollNumber == rollNumber) {
+            return &(current->student);
+        }
+        current = current->next;
+    }
+    
+    return nullptr;
+}
 
-        current_rrd = current_rrd->next_rrd;
-    else
+bool deleteStudent(HashTable* hashTable, int rollNumber) {
+    int index = hashFunction(rollNumber, hashTable->size);
+    HashNode* current = hashTable->buckets[index];
+    HashNode* previous = nullptr;
+    
+    while (current != nullptr) {
+        if (current->student.rollNumber == rollNumber) {
+            if (previous == nullptr) {
+                hashTable->buckets[index] = current->next;
+            } else {
+                previous->next = current->next;
+            }
+            
+            cout << "Student " << current->student.name << " (Roll No: " << rollNumber << ") deleted successfully" << endl;
+            delete current;
+            hashTable->count--;
+            return true;
+        }
+        
+        previous = current;
+        current = current->next;
+    }
+    
+    cout << "Error: Student with Roll Number " << rollNumber << " not found!" << endl;
+    return false;
+}
 
-    newNode_rrd = (struct HashNode_rrd*)malloc(sizeof(struct HashNode_rrd));
-    newNode_rrd->student_rrd = student_rrd;
-    newNode_rrd->next_rrd = hashTable_rrd->buckets_rrd[index_rrd];
-    hashTable_rrd->buckets_rrd[index_rrd] = newNode_rrd;
-    hashTable_rrd->count_rrd++;
-    cout << "Student %s (Roll No: " << student_rrd.name_rrd, student_rrd.rollNumber_rrd, index_rrd << ") inserted successfully at index %d" << endl;
-    return 1;
-else
+bool updateStudent(HashTable* hashTable, int rollNumber, Student updatedStudent) {
+    int index = hashFunction(rollNumber, hashTable->size);
+    HashNode* current = hashTable->buckets[index];
+    
+    while (current != nullptr) {
+        if (current->student.rollNumber == rollNumber) {
+            current->student = updatedStudent;
+            cout << "Student with Roll Number " << rollNumber << " updated successfully" << endl;
+            return true;
+        }
+        current = current->next;
+    }
+    
+    cout << "Error: Student with Roll Number " << rollNumber << " not found!" << endl;
+    return false;
+}
 
-struct Student_rrd* searchStudent_rrd(struct HashTable_rrd* hashTable_rrd, int rollNumber_rrd)
-else
-    int index_rrd = hash_rrd(rollNumber_rrd, hashTable_rrd->size_rrd);
-    struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[index_rrd];
-    while (current_rrd != NULL)
-else
-        if (current_rrd->student_rrd.rollNumber_rrd == rollNumber_rrd)
-else
-            return &(current_rrd->student_rrd);
-        else
-
-        current_rrd = current_rrd->next_rrd;
-    else
-    return NULL;
-else
-
-int deleteStudent_rrd(struct HashTable_rrd* hashTable_rrd, int rollNumber_rrd)
-else
-    int index_rrd = hash_rrd(rollNumber_rrd, hashTable_rrd->size_rrd);
-    struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[index_rrd];
-    struct HashNode_rrd* previous_rrd = NULL;
-    while (current_rrd != NULL)
-else
-        if (current_rrd->student_rrd.rollNumber_rrd == rollNumber_rrd)
-else
-            if (previous_rrd == NULL)
-else
-                hashTable_rrd->buckets_rrd[index_rrd] = current_rrd->next_rrd;
-            else
-
-            else
-                previous_rrd->next_rrd = current_rrd->next_rrd;
-            else
-
-            cout << "Student %s (Roll No: " << current_rrd->student_rrd.name_rrd, rollNumber_rrd << ") deleted successfully" << endl;
-            free(current_rrd);
-            hashTable_rrd->count_rrd--;
-            return 1;
-        else
-
-        previous_rrd = current_rrd;
-        current_rrd = current_rrd->next_rrd;
-    else
-
-    cout << "Error: Student with Roll Number " << rollNumber_rrd << " not found!" << endl;
-    return 0;
-else
-
-int updateStudent_rrd(struct HashTable_rrd* hashTable_rrd, int rollNumber_rrd, struct Student_rrd updatedStudent_rrd)
-else
-    int index_rrd = hash_rrd(rollNumber_rrd, hashTable_rrd->size_rrd);
-    struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[index_rrd];
-    while (current_rrd != NULL)
-else
-        if (current_rrd->student_rrd.rollNumber_rrd == rollNumber_rrd)
-else
-            current_rrd->student_rrd = updatedStudent_rrd;
-            cout << "Student with Roll Number " << rollNumber_rrd << " updated successfully" << endl;
-            return 1;
-        else
-
-        current_rrd = current_rrd->next_rrd;
-    else
-
-    cout << "Error: Student with Roll Number " << rollNumber_rrd << " not found!" << endl;
-    return 0;
-else
-
-void displayStudent_rrd(struct Student_rrd student_rrd)
-else
+void displayStudent(Student student) {
     cout << "\n--- Student Details ---" << endl;
-    cout << "Roll Number: " << student_rrd.rollNumber_rrd << "" << endl;
-    cout << "Name: " << student_rrd.name_rrd << "" << endl;
-    cout << "Branch: " << student_rrd.branch_rrd << "" << endl;
-    cout << "Semester: " << student_rrd.semester_rrd << "" << endl;
-    printf("CGPA: %.2f\n", student_rrd.cgpa_rrd);
-    cout << "Email: " << student_rrd.email_rrd << "" << endl;
-    cout << "Phone: " << student_rrd.phone_rrd << "" << endl;
-else
+    cout << "Roll Number: " << student.rollNumber << endl;
+    cout << "Name: " << student.name << endl;
+    cout << "Branch: " << student.branch << endl;
+    cout << "Semester: " << student.semester << endl;
+    cout << "CGPA: " << student.cgpa << endl;
+    cout << "Email: " << student.email << endl;
+    cout << "Phone: " << student.phone << endl;
+}
 
-void displayAllStudents_rrd(struct HashTable_rrd* hashTable_rrd)
-else
-    int i_rrd;
-    cout << "\n=== Student Database (Total: " << hashTable_rrd->count_rrd << ") ===" << endl;
-    for (i_rrd = 0; i_rrd < hashTable_rrd->size_rrd; i_rrd++)
-else
-        struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[i_rrd];
-        while (current_rrd != NULL)
-else
-            cout << "\n[Index " << i_rrd,
-                   current_rrd->student_rrd.rollNumber_rrd,
-                   current_rrd->student_rrd.name_rrd,
-                   current_rrd->student_rrd.branch_rrd,
-                   current_rrd->student_rrd.semester_rrd,
-                   current_rrd->student_rrd.cgpa_rrd << "] Roll: %d | Name: %s | Branch: %s | Sem: %d | CGPA: %.2f";
-            current_rrd = current_rrd->next_rrd;
-        else
-    else
-
-    cout << "" << endl;
-else
-
-void displayByBranch_rrd(struct HashTable_rrd* hashTable_rrd, char* branch_rrd)
-else
-    cout << "\n=== Students in " << branch_rrd << " Branch ===" << endl;
-    int count_rrd = 0;
-    int i_rrd;
-    for (i_rrd = 0; i_rrd < hashTable_rrd->size_rrd; i_rrd++)
-else
-        struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[i_rrd];
-        while (current_rrd != NULL)
-else
-            if (strcmp(current_rrd->student_rrd.branch_rrd, branch_rrd) == 0)
-else
-                displayStudent_rrd(current_rrd->student_rrd);
-                count_rrd++;
-            else
-
-            current_rrd = current_rrd->next_rrd;
-        else
-    else
-
-    if (count_rrd == 0)
-else
-        cout << "No students found in " << branch_rrd << " branch" << endl;
-    else
-
-    else
-        cout << "\nTotal students in %s: " << branch_rrd, count_rrd << "" << endl;
-    else
-else
-
-void displayToppers_rrd(struct HashTable_rrd* hashTable_rrd, float minCGPA_rrd)
-else
-    printf("\n=== Students with CGPA >= %.2f ===\n", minCGPA_rrd);
-    int count_rrd = 0;
-    int i_rrd;
-    for (i_rrd = 0; i_rrd < hashTable_rrd->size_rrd; i_rrd++)
-else
-        struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[i_rrd];
-        while (current_rrd != NULL)
-else
-            if (current_rrd->student_rrd.cgpa_rrd >= minCGPA_rrd)
-else
-                cout << "Roll: " << current_rrd->student_rrd.rollNumber_rrd,
-                       current_rrd->student_rrd.name_rrd,
-                       current_rrd->student_rrd.cgpa_rrd,
-                       current_rrd->student_rrd.branch_rrd << " | Name: %s | CGPA: %.2f | Branch: %s" << endl;
-                count_rrd++;
-            else
-
-            current_rrd = current_rrd->next_rrd;
-        else
-    else
-
-    cout << "\nTotal toppers: " << count_rrd << "" << endl;
-else
-
-void freeHashTable_rrd(struct HashTable_rrd* hashTable_rrd)
-else
-    int i_rrd;
-    for (i_rrd = 0; i_rrd < hashTable_rrd->size_rrd; i_rrd++)
-else
-        struct HashNode_rrd* current_rrd = hashTable_rrd->buckets_rrd[i_rrd];
-        while (current_rrd != NULL)
-else
-            struct HashNode_rrd* temp_rrd = current_rrd;
-            current_rrd = current_rrd->next_rrd;
-            free(temp_rrd);
-        else
-    else
-
-    free(hashTable_rrd->buckets_rrd);
-    free(hashTable_rrd);
-else
-else
-    struct HashTable_rrd* hashTable_rrd = createHashTable_rrd(TABLE_SIZE_RRD);
+void displayAllStudents(HashTable* hashTable) {
+    cout << "\n=== Student Database (Total: " << hashTable->count << ") ===" << endl;
+    for (int i = 0; i < hashTable->size; i++) {
+        HashNode* current = hashTable->buckets[i];
+        while (current != nullptr) {
+            cout << "\n[Index " << i << "] Roll: " << current->student.rollNumber 
+                 << " | Name: " << current->student.name 
+                 << " | Branch: " << current->student.branch 
+                 << " | Sem: " << current->student.semester 
+                 << " | CGPA: " << current->student.cgpa;
+            current = current->next;
+        }
+    }
     
-    struct Student_rrd s1_rrd = {1001, "Rahul Sharma", "Computer Science", 6, 8.9, "rahul@vit.edu", "9876543210"};
-    struct Student_rrd s2_rrd = {1002, "Priya Patel", "Electronics", 4, 9.2, "priya@vit.edu", "9876543211"};
-    struct Student_rrd s3_rrd = {1003, "Amit Kumar", "Mechanical", 6, 7.8, "amit@vit.edu", "9876543212"};
-    struct Student_rrd s4_rrd = {1004, "Sneha Gupta", "Computer Science", 4, 9.5, "sneha@vit.edu", "9876543213"};
-    struct Student_rrd s5_rrd = {1005, "Vikram Singh", "Civil", 6, 8.1, "vikram@vit.edu", "9876543214"};
-    struct Student_rrd s6_rrd = {1006, "Ananya Reddy", "Computer Science", 4, 8.7, "ananya@vit.edu", "9876543215"};
+    cout << endl;
+}
+
+void displayByBranch(HashTable* hashTable, const char* branch) {
+    cout << "\n=== Students in " << branch << " Branch ===" << endl;
+    int count = 0;
+    
+    for (int i = 0; i < hashTable->size; i++) {
+        HashNode* current = hashTable->buckets[i];
+        while (current != nullptr) {
+            if (strcmp(current->student.branch, branch) == 0) {
+                displayStudent(current->student);
+                count++;
+            }
+            current = current->next;
+        }
+    }
+    
+    if (count == 0) {
+        cout << "No students found in " << branch << " branch" << endl;
+    } else {
+        cout << "\nTotal students in " << branch << ": " << count << endl;
+    }
+}
+
+void displayToppers(HashTable* hashTable, float minCGPA) {
+    cout << "\n=== Students with CGPA >= " << minCGPA << " ===" << endl;
+    int count = 0;
+    
+    for (int i = 0; i < hashTable->size; i++) {
+        HashNode* current = hashTable->buckets[i];
+        while (current != nullptr) {
+            if (current->student.cgpa >= minCGPA) {
+                cout << "Roll: " << current->student.rollNumber 
+                     << " | Name: " << current->student.name 
+                     << " | CGPA: " << current->student.cgpa 
+                     << " | Branch: " << current->student.branch << endl;
+                count++;
+            }
+            current = current->next;
+        }
+    }
+    
+    cout << "\nTotal toppers: " << count << endl;
+}
+
+void freeHashTable(HashTable* hashTable) {
+    for (int i = 0; i < hashTable->size; i++) {
+        HashNode* current = hashTable->buckets[i];
+        while (current != nullptr) {
+            HashNode* temp = current;
+            current = current->next;
+            delete temp;
+        }
+    }
+    
+    delete[] hashTable->buckets;
+    delete hashTable;
+}
+
+int main() {
+    HashTable* hashTable = createHashTable(TABLE_SIZE);
+    
+    Student s1 = {1001, "Rahul Sharma", "Computer Science", 6, 8.9, "rahul@vit.edu", "9876543210"};
+    Student s2 = {1002, "Priya Patel", "Electronics", 4, 9.2, "priya@vit.edu", "9876543211"};
+    Student s3 = {1003, "Amit Kumar", "Mechanical", 6, 7.8, "amit@vit.edu", "9876543212"};
+    Student s4 = {1004, "Sneha Gupta", "Computer Science", 4, 9.5, "sneha@vit.edu", "9876543213"};
+    Student s5 = {1005, "Vikram Singh", "Civil", 6, 8.1, "vikram@vit.edu", "9876543214"};
+    Student s6 = {1006, "Ananya Reddy", "Computer Science", 4, 8.7, "ananya@vit.edu", "9876543215"};
     
     cout << "=== Inserting Student Records ===\n" << endl;
-    insertStudent_rrd(hashTable_rrd, s1_rrd);
-    insertStudent_rrd(hashTable_rrd, s2_rrd);
-    insertStudent_rrd(hashTable_rrd, s3_rrd);
-    insertStudent_rrd(hashTable_rrd, s4_rrd);
-    insertStudent_rrd(hashTable_rrd, s5_rrd);
-    insertStudent_rrd(hashTable_rrd, s6_rrd);
+    insertStudent(hashTable, s1);
+    insertStudent(hashTable, s2);
+    insertStudent(hashTable, s3);
+    insertStudent(hashTable, s4);
+    insertStudent(hashTable, s5);
+    insertStudent(hashTable, s6);
     
-    displayAllStudents_rrd(hashTable_rrd);
+    displayAllStudents(hashTable);
     
     cout << "\n\n=== Searching for Student ===" << endl;
-    int searchRoll_rrd = 1004;
-    struct Student_rrd* found_rrd = searchStudent_rrd(hashTable_rrd, searchRoll_rrd);
-    if (found_rrd != NULL) {
+    int searchRoll = 1004;
+    Student* found = searchStudent(hashTable, searchRoll);
+    if (found != nullptr) {
         cout << "Student found!";
-        displayStudent_rrd(*found_rrd);
-    } else
-else
-        cout << "Student with Roll Number " << searchRoll_rrd << " not found!" << endl;
-    else
+        displayStudent(*found);
+    } else {
+        cout << "Student with Roll Number " << searchRoll << " not found!" << endl;
+    }
     
     cout << "\n\n=== Updating Student ===" << endl;
-    struct Student_rrd updatedS3_rrd = {1003, "Amit Kumar", "Mechanical", 7, 8.2, "amit@vit.edu", "9876543212"};
-    updateStudent_rrd(hashTable_rrd, 1003, updatedS3_rrd);
+    Student updatedS3 = {1003, "Amit Kumar", "Mechanical", 7, 8.2, "amit@vit.edu", "9876543212"};
+    updateStudent(hashTable, 1003, updatedS3);
     
     cout << "\n\n=== Display by Branch ===";
-    displayByBranch_rrd(hashTable_rrd, "Computer Science");
+    displayByBranch(hashTable, "Computer Science");
     
     cout << "\n\n=== Display Toppers ===";
-    displayToppers_rrd(hashTable_rrd, 8.5);
+    displayToppers(hashTable, 8.5);
     
     cout << "\n\n=== Deleting Student ===" << endl;
-    deleteStudent_rrd(hashTable_rrd, 1002);
+    deleteStudent(hashTable, 1002);
     
-    displayAllStudents_rrd(hashTable_rrd);
+    displayAllStudents(hashTable);
     
-    freeHashTable_rrd(hashTable_rrd);
-    
+    freeHashTable(hashTable);
     return 0;
-else
-else
+}
+```
+
 ## Sample Output
-else
+```
 === Inserting Student Records ===
 
 Student Rahul Sharma (Roll No: 1001) inserted successfully at index 1
@@ -556,7 +465,9 @@ Student Priya Patel (Roll No: 1002) deleted successfully
 [Index 4] Roll: 1004 | Name: Sneha Gupta | Branch: Computer Science | Sem: 4 | CGPA: 9.50
 [Index 5] Roll: 1005 | Name: Vikram Singh | Branch: Civil | Sem: 6 | CGPA: 8.10
 [Index 6] Roll: 1006 | Name: Ananya Reddy | Branch: Computer Science | Sem: 4 | CGPA: 8.70
-else
+```
+```
+```
 ## Dry Run
 ### Insertion Process:
 1. **Insert Student 1001:**
