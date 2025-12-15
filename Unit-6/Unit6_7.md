@@ -88,7 +88,6 @@ Algorithm DisplayAllFaculty(hashTable):
                 current = current.next
 ```
 
-```cpp
 ## C++ Code Implementation
 
 ```cpp
@@ -361,3 +360,4 @@ The MOD hash function with linear probing and chaining with replacement provides
 - MOD hash function provides better distribution than division
 - Suitable for faculty databases with predictable ID patterns
 - Chaining with replacement minimizes probe sequence length
+
