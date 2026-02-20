@@ -1,6 +1,5 @@
 # 🛡️ Autonomous CI/CD Healing Platform
 
-![Architecture Diagram](https://via.placeholder.com/800x400?text=System+Architecture+Diagram)
 
 > **"The Self-Healing DevOps Workforce"**  
 > An intelligent agent that autonomously detects, diagnoses, and patches CI/CD pipeline failures in real-time.
